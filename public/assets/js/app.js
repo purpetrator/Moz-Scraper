@@ -1,57 +1,62 @@
+var activeID = 0;
+
 // Make sure we wait to attach our handlers until the DOM is fully loaded.
 $(function() {
   $("#save-btn").on("click", function(event) {
-    var id = $(this).data("id");
-    var newSleep = $(this).data("newsleep");
-
-    var newSleepState = {
-      saved: true
-    };
+    event.preventDefault();
+    var id = $(this).attr("data-id");
 
     // Send the PUT request.
-    $.ajax("/saved/" + id, {
-      type: "PUT",
-      data: newSleepState
+    $.ajax("/savedarticles/" + id, {
+      type: "PUT"
     }).then(function() {
-      console.log("changed save state to", newSleep);
+      console.log("saved");
       // Reload the page to get the updated list
       location.reload();
     });
   });
 
-  $(".create-form").on("submit", function(event) {
-    // Make sure to preventDefault on a submit event.
-    event.preventDefault();
-
-    var newCat = {
-      name: $("#ca")
-        .val()
-        .trim(),
-      sleepy: $("[name=sleepy]:checked")
-        .val()
-        .trim()
-    };
-
-    // Send the POST request.
-    $.ajax("/api/cats", {
-      type: "POST",
-      data: newCat
+  $("#scrape-btn").on("click", function(event) {
+    // Send the PUT request.
+    $.ajax("/scrape", {
+      type: "GET"
     }).then(function() {
-      console.log("created new cat");
+      console.log("scraping");
       // Reload the page to get the updated list
       location.reload();
     });
   });
 
-  $(".delete-cat").on("click", function(event) {
+  $(document).on("click", ".comment", function(event) {
+    console.log("this is clicking");
+    console.log($(this).attr("data-id"));
+    activeID = $(this).attr("data-id");
+    return activeID;
+  });
+
+  $("#save-comment").on("click", function(event) {
     event.preventDefault();
-    console.log("Delete button was clicked");
-    var id = $(this).data("id");
-    $.ajax("/api/cats/" + id, {
-      type: "DELETE"
+    console.log(activeID);
+    var id = activeID;
+    // Send the PUT request.
+    $.ajax("/comment/" + id, {
+      type: "POST"
     }).then(function() {
-      console.log("Deleted cat");
+      console.log("commenting");
+      // Reload the page to get the updated list
       location.reload();
     });
   });
+
+  // $(".delete-cat").on("click", function(event) {
+  //   event.preventDefault();
+  //   console.log("Delete button was clicked");
+  //   var id = $(this).data("id");
+  //   $.ajax("/api/cats/" + id, {
+  //     type: "DELETE"
+  //   }).then(function() {
+  //     console.log("Deleted cat");
+  //     location.reload();
+  //   });
+  // });
 });

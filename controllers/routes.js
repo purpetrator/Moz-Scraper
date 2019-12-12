@@ -109,12 +109,28 @@ router.get("/articles", function(req, res) {
 // A GET route for getting all saved articles from db
 router.get("/savedarticles", function(req, res) {
   db.Article.find({ saved: true })
-    .populate("comment")
+    .populate("Comment")
     // Specify that we want to populate the retrieved libraries with any associated books
 
-    .then(function(dbNote) {
+    .then(function(dbArticle) {
+      var hbsObject = {
+        articles: dbArticle
+      };
+
+      res.render("saved", hbsObject);
+      // res.json(dbArticle);
+    })
+    .catch(function(err) {
+      res.json(err);
+    });
+});
+
+// A PUT route for updating saved/unsaved status for each article
+router.put("/savedarticles/:id", function(req, res) {
+  db.Article.findOneAndUpdate({ _id: req.params.id }, { $set: { saved: true } })
+    .then(function(dbArticle) {
       // If any Libraries are found, send them to the client with any associated Books
-      res.json(dbNote);
+      res.json(dbArticle);
     })
     .catch(function(err) {
       // If an error occurs, send it back to the client
@@ -123,27 +139,21 @@ router.get("/savedarticles", function(req, res) {
 });
 
 // A POST route for saving/updating an Article's associated Comment
-router.post("/articles/:id", function(req, res) {
-  // TODO
-  // ====
-  // save the new comment that gets posted to the Notes collection
-  // then find an article from the req.params.id
-  // and update it's "comment" property with the _id of the new comment
+router.post("/comment/:id", function(req, res) {
+  console.log(req.body);
+  console.log(req.params.id);
   db.Comment.create(req.body)
     .then(function(dbComment) {
-      // If a Comment was created successfully, find one User (there's only one) and push the new Comment's _id to the User's `comments` array
-      // { new: true } tells the query that we want it to return the updated User -- it returns the original by default
-      // Since our mongoose query returns a promise, we can chain another `.then` which receives the result of the query
       console.log(dbComment);
-      return db.Article.findOneAndUpdate(
+      return db.Comment.findOneAndUpdate(
         { _id: req.params.id },
         { $push: { comment: dbComment._id } },
         { new: true }
       );
     })
-    .then(function(dbUser) {
+    .then(function(dbComment) {
       // If the User was updated successfully, send it back to the client
-      res.json(dbUser);
+      res.json(dbComment);
     })
     .catch(function(err) {
       // If an error occurs, send it back to the client
@@ -151,7 +161,25 @@ router.post("/articles/:id", function(req, res) {
     });
 });
 
-// A ???? route for updating saved/unsaved status for each article
+// db.Note.create(req.body)
+//   .then(function(dbNote) {
+//     // If a Note was created successfully, find one User (there's only one) and push the new Note's _id to the User's `notes` array
+//     // { new: true } tells the query that we want it to return the updated User -- it returns the original by default
+//     // Since our mongoose query returns a promise, we can chain another `.then` which receives the result of the query
+//     return db.User.findOneAndUpdate(
+//       {},
+//       { $push: { notes: dbNote._id } },
+//       { new: true }
+//     );
+//   })
+//   .then(function(dbUser) {
+//     // If the User was updated successfully, send it back to the client
+//     res.json(dbUser);
+//   })
+//   .catch(function(err) {
+//     // If an error occurs, send it back to the client
+//     res.json(err);
+//   });
 
 // Export routes for server.js to use.
 module.exports = router;
