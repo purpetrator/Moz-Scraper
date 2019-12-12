@@ -10,14 +10,19 @@ router.get("/", function(req, res) {
   db.Article.find({})
 
     .then(function(dbArticle) {
-      res.json(dbArticle);
+      var hbsObject = {
+        articles: dbArticle
+      };
+
+      res.render("index", hbsObject);
+      // res.json(dbArticle);
     })
     .catch(function(err) {
       res.json(err);
     });
 });
 
-// A GET route for scraping the echoJS website
+// A GET route for scraping Moz and dumping data into DB
 router.get("/scrape", function(req, res) {
   // First, we grab the body of the html with axios
   axios.get("https://moz.com/blog").then(function(response) {
@@ -52,12 +57,17 @@ router.get("/scrape", function(req, res) {
         .find("div.media-body")
         .find("time")
         .text();
+      result.summary = $(this)
+        .find("header.post-header")
+        .find("p")
+        .text();
 
       // Create a new Article using the `result` object built from scraping
       db.Article.create(result)
         .then(function(dbArticle) {
           // View the added result in the console
           console.log(dbArticle);
+          console.log(result);
         })
         .catch(function(err) {
           // If an error occurred, log it
@@ -79,7 +89,7 @@ router.get("/scrape", function(req, res) {
   });
 });
 
-// Route for getting all Articles from the db
+// A GET route for getting all articles from db
 router.get("/articles", function(req, res) {
   // TODO: Finish the route so it grabs all of the articles
   db.Article.find({})
@@ -96,7 +106,7 @@ router.get("/articles", function(req, res) {
     });
 });
 
-// Route for grabbing a specific Article by id, populate it with it's comment
+// A GET route for getting all saved articles from db
 router.get("/savedarticles", function(req, res) {
   db.Article.find({ saved: true })
     .populate("comment")
@@ -112,7 +122,7 @@ router.get("/savedarticles", function(req, res) {
     });
 });
 
-// Route for saving/updating an Article's associated Comment
+// A POST route for saving/updating an Article's associated Comment
 router.post("/articles/:id", function(req, res) {
   // TODO
   // ====
@@ -141,7 +151,7 @@ router.post("/articles/:id", function(req, res) {
     });
 });
 
-// Route for updating saved/unsaved status goes here
+// A ???? route for updating saved/unsaved status for each article
 
 // Export routes for server.js to use.
 module.exports = router;
