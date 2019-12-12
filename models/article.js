@@ -26,6 +26,14 @@ var ArticleSchema = new Schema({
   },
   date: {
     type: String
+  },
+  saved: {
+    type: Boolean,
+    default: false
+  },
+  comment: {
+    type: Schema.Types.ObjectId,
+    ref: "Comment"
   }
 });
 

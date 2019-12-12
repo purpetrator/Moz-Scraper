@@ -1,58 +1,77 @@
 var express = require("express");
 var router = express.Router();
-
-// Import the model (cat.js) to use its database functions.
-var comment = require("../models/comment.js");
-var article = require("../models/article.js");
+var axios = require("axios");
+var cheerio = require("cheerio");
+var db = require("../models");
 
 // Routes
 
+router.get("/", function(req, res) {
+  db.Article.find({})
+
+    .then(function(dbArticle) {
+      res.json(dbArticle);
+    })
+    .catch(function(err) {
+      res.json(err);
+    });
+});
+
 // A GET route for scraping the echoJS website
-app.get("/scrape", function(req, res) {
+router.get("/scrape", function(req, res) {
   // First, we grab the body of the html with axios
   axios.get("https://moz.com/blog").then(function(response) {
     // Load the HTML into cheerio and save it to a variable
     // '$' becomes a shorthand for cheerio's selector commands, much like jQuery's '$'
     var $ = cheerio.load(response.data);
-    // An empty array to save the data that we'll scrape
-    var results = {};
 
-    // Select each element in the HTML body from which you want information.
-    // NOTE: Cheerio selectors function similarly to jQuery's selectors,
-    // but be sure to visit the package's npm page to see how it works
     $("article").each(function(i, element) {
-      var title = $(element)
+      // An empty array to save the data that we'll scrape
+      var result = {};
+
+      result.title = $(this)
         .find("h2.title")
         .text()
         .trim();
-      var link = $(element)
+      result.link = $(this)
         .find("h2.title")
         .find("a")
         .attr("href");
-      var img = $(element)
+      result.img = $(this)
         .find("img.post-image")
         .attr("src");
-      var authorLink = $(element)
+      result.authorLink = $(this)
         .find("div.media-body")
         .find("a")
         .attr("href");
-      var authorName = $(element)
+      result.authorName = $(this)
         .find("div.media-body")
         .find("a")
         .text();
-      var date = $(element)
+      result.date = $(this)
         .find("div.media-body")
         .find("time")
         .text();
+
+      // Create a new Article using the `result` object built from scraping
+      db.Article.create(result)
+        .then(function(dbArticle) {
+          // View the added result in the console
+          console.log(dbArticle);
+        })
+        .catch(function(err) {
+          // If an error occurred, log it
+          console.log(err);
+        });
       // Save these results in an object that we'll push into the results array we defined earlier
-      db.scrapedData.insert({
-        title: title,
-        link: link,
-        image: img,
-        author_name: authorName,
-        author_link: authorLink,
-        date: date
-      });
+      // db.scrapedData.insert({
+      //   title: title,
+      //   link: link,
+      //   image: img,
+      //   author_name: authorName,
+      //   author_link: authorLink,
+      //   date: date
+      // });
     });
 
     // Send a message to the client
@@ -61,10 +80,10 @@ app.get("/scrape", function(req, res) {
 });
 
 // Route for getting all Articles from the db
-app.get("/articles", function(req, res) {
+router.get("/articles", function(req, res) {
   // TODO: Finish the route so it grabs all of the articles
   db.Article.find({})
-    .populate("note")
+    .populate("comment")
     // Specify that we want to populate the retrieved libraries with any associated books
 
     .then(function(dbNote) {
@@ -77,20 +96,15 @@ app.get("/articles", function(req, res) {
     });
 });
 
-// Route for grabbing a specific Article by id, populate it with it's note
-app.get("/articles/:id", function(req, res) {
-  // TODO
-  // ====
-  // Finish the route so it finds one article using the req.params.id,
-  // and run the populate method with "note",
-  // then responds with the article with the note included
-  db.Article.findOne({
-    _id: req.params.id
-  })
-    .populate("note")
-    .then(function(dbLibrary) {
+// Route for grabbing a specific Article by id, populate it with it's comment
+router.get("/savedarticles", function(req, res) {
+  db.Article.find({ saved: true })
+    .populate("comment")
+    // Specify that we want to populate the retrieved libraries with any associated books
+
+    .then(function(dbNote) {
       // If any Libraries are found, send them to the client with any associated Books
-      res.json(dbLibrary);
+      res.json(dbNote);
     })
     .catch(function(err) {
       // If an error occurs, send it back to the client
@@ -98,22 +112,22 @@ app.get("/articles/:id", function(req, res) {
     });
 });
 
-// Route for saving/updating an Article's associated Note
-app.post("/articles/:id", function(req, res) {
+// Route for saving/updating an Article's associated Comment
+router.post("/articles/:id", function(req, res) {
   // TODO
   // ====
-  // save the new note that gets posted to the Notes collection
+  // save the new comment that gets posted to the Notes collection
   // then find an article from the req.params.id
-  // and update it's "note" property with the _id of the new note
-  db.Note.create(req.body)
-    .then(function(dbNote) {
-      // If a Note was created successfully, find one User (there's only one) and push the new Note's _id to the User's `notes` array
+  // and update it's "comment" property with the _id of the new comment
+  db.Comment.create(req.body)
+    .then(function(dbComment) {
+      // If a Comment was created successfully, find one User (there's only one) and push the new Comment's _id to the User's `comments` array
       // { new: true } tells the query that we want it to return the updated User -- it returns the original by default
       // Since our mongoose query returns a promise, we can chain another `.then` which receives the result of the query
-      console.log(dbNote);
+      console.log(dbComment);
       return db.Article.findOneAndUpdate(
         { _id: req.params.id },
-        { $push: { note: dbNote._id } },
+        { $push: { comment: dbComment._id } },
         { new: true }
       );
     })
@@ -126,6 +140,8 @@ app.post("/articles/:id", function(req, res) {
       res.json(err);
     });
 });
+
+// Route for updating saved/unsaved status goes here
 
 // Export routes for server.js to use.
 module.exports = router;
