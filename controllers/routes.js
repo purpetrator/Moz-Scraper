@@ -8,6 +8,7 @@ var db = require("../models");
 // A GET ROUTE FOR ALL ARTICLES
 router.get("/", function(req, res) {
   db.Article.find({})
+    .populate("comments")
 
     .then(function(dbArticle) {
       var hbsObject = {
@@ -137,21 +138,13 @@ router.post("/comment/:id", function(req, res) {
   db.Comment.create(req.body)
     .then(function(dbComment) {
       console.log(dbComment);
-      return db.Comment.findOneAndUpdate(
+      return db.Article.findOneAndUpdate(
         { _id: req.params.id },
-        { $push: { comment: dbComment._id } },
+        { $push: { comments: dbComment._id } },
         { new: true }
       );
     })
     .then(function(dbComment) {
-      // If the User was updated successfully, send it back to the client
-      ////////////////////////////////////////////////
-      var hbsObject = {
-        comments: dbComment
-      };
-      res.render("index", hbsObject);
-      //////////////////////////////////////////////
-
       res.json(dbComment);
     })
     .catch(function(err) {

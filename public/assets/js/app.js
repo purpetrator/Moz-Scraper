@@ -26,7 +26,7 @@ $(function() {
     });
   });
 
-  $(document).on("click", ".comment", function(event) {
+  $(document).on("click", ".comment-btn", function(event) {
     console.log("this is clicking");
     console.log($(this).attr("data-id"));
     activeID = $(this).attr("data-id");
