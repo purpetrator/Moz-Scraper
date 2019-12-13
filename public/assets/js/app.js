@@ -17,7 +17,6 @@ $(function() {
   });
 
   $("#scrape-btn").on("click", function(event) {
-    // Send the PUT request.
     $.ajax("/scrape", {
       type: "GET"
     }).then(function() {
@@ -56,7 +55,7 @@ $(function() {
     }).then(function() {
       console.log("commenting");
       // Reload the page to get the updated list
-      location.reload();
+      // location.reload();
     });
   });
 

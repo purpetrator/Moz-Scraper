@@ -30,32 +30,16 @@
 
   </div>
 
-  {{!-- <img src="{{img}}" />
-
-  <a href="{{link}}">
-    <h1>{{title}}</h1>
-  </a>
-
-  <a href="{{authorLink}}">
-    {{authorName}}
-  </a> | {{date}}
-
-  <p>{{summary}}</p>
-
-  {{> buttons/buttons}} --}}
-
-
-
   {{/unless}}
   {{/each}}
 </ul>
 
-{{!-- This is the ADD COMMENT modal --}}
+{{!-- This is the COMMENT modal --}}
 <div class="modal" id="comment-modal" tabindex="-1" role="dialog">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title">Comment</h5>
+        <h5 class="modal-title">New Comment</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -71,11 +55,14 @@
           </div>
           <div class="form-group">
             <label for="comment-comment">Comment</label>
-            <textarea class="form-control" id="comment-text" rows="3"></textarea>
+            <textarea class="form-control" id="comment-text" rows="3" placeholder="Enter Comment"></textarea>
           </div>
 
           <button type="button" id="save-comment" class="btn btn-primary m-2">Save</button>
         </form>
+        <hr>
+        <h4>All Comments</h4>
+        {{> comments/comments}}
       </div>
     </div>
   </div>

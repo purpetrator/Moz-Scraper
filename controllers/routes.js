@@ -5,7 +5,7 @@ var cheerio = require("cheerio");
 var db = require("../models");
 
 // Routes
-
+// A GET ROUTE FOR ALL ARTICLES
 router.get("/", function(req, res) {
   db.Article.find({})
 
@@ -73,15 +73,6 @@ router.get("/scrape", function(req, res) {
           // If an error occurred, log it
           console.log(err);
         });
-      // Save these results in an object that we'll push into the results array we defined earlier
-      // db.scrapedData.insert({
-      //   title: title,
-      //   link: link,
-      //   image: img,
-      //   author_name: authorName,
-      //   author_link: authorLink,
-      //   date: date
-      // });
     });
 
     // Send a message to the client
