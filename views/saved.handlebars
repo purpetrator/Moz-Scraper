@@ -1,25 +1,33 @@
-<h1>Saved Articles</h1>
+<div class="m-3">
+  <a href="/"><button type="button" id="back-btn" class="btn">Go Back Home
+    </button></a><br>
+</div>
 
-<h2>All Saved Articles</h2>
+<p id="title">Saved Articles</p>
+
 
 <ul>
   {{#each articles}}
   {{#if saved}}
 
-  <img src="{{img}}" />
+  <div class="card mx-auto m-5" style="width: 90%">
+    <img src="{{img}}" class="card-img-top" alt="...">
+    <div class="card-body">
+      <h5 class="card-title"><a href="{{link}}">
+          {{title}}
+        </a></h5>
+      <p class="card-text">{{summary}}</p>
+      <a href="{{authorLink}}">
+        {{authorName}}
+      </a> | {{date}}
 
-  <a href="{{link}}">
-    <h1>{{title}}</h1>
-  </a>
+    </div>
 
-  <a href="{{authorLink}}">
-    {{authorName}}
-  </a> | {{date}}
+    <ul class="list-group list-group-flush">
+      <li class="list-group-item">{{> buttons/buttons}}</li>
+    </ul>
 
-  <p>{{summary}}</p>
-
-  {{> buttons/deletebtn}}
-  <br><br>
+  </div>
 
   {{/if}}
   {{/each}}

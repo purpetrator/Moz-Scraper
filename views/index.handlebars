@@ -1,12 +1,36 @@
-<h1>Click Button to Scrape Articles</h1>
+<p id="title">Moz Blog Scraper</p>
+<img src="/assets/img/dig4.jpg" width="80%" />
 
-<button type="button" id="scrape-btn" class="btn btn-primary">Scrape Articles</button><br><br>
+<div id="buttons-div" class="m-3">
+  <button type="button" id="scrape-btn" class="btn">Scrape Articles</button>
+  <a href="/savedarticles"><button type="button" id="saved-btn" class="btn">View Saved
+    </button></a><br><br>
+</div>
 
 <ul>
   {{#each articles}}
   {{#unless saved}}
 
-  <img src="{{img}}" />
+  <div class="card mx-auto m-5" style="width: 90%">
+    <img src="{{img}}" class="card-img-top" alt="...">
+    <div class="card-body">
+      <h5 class="card-title"><a href="{{link}}">
+          {{title}}
+        </a></h5>
+      <p class="card-text">{{summary}}</p>
+      <a href="{{authorLink}}">
+        {{authorName}}
+      </a> | {{date}}
+
+    </div>
+
+    <ul class="list-group list-group-flush">
+      <li class="list-group-item">{{> buttons/buttons}}</li>
+    </ul>
+
+  </div>
+
+  {{!-- <img src="{{img}}" />
 
   <a href="{{link}}">
     <h1>{{title}}</h1>
@@ -18,13 +42,15 @@
 
   <p>{{summary}}</p>
 
-  {{> buttons/buttons}}
-  <br><br>
+  {{> buttons/buttons}} --}}
+
+
+
   {{/unless}}
   {{/each}}
 </ul>
 
-
+{{!-- This is the ADD COMMENT modal --}}
 <div class="modal" id="comment-modal" tabindex="-1" role="dialog">
   <div class="modal-dialog" role="document">
     <div class="modal-content">

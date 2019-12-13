@@ -38,9 +38,21 @@ $(function() {
     event.preventDefault();
     console.log(activeID);
     var id = activeID;
+
+    var name = $("#comment-name")
+      .val()
+      .trim();
+    var text = $("#comment-text")
+      .val()
+      .trim();
+
     // Send the PUT request.
     $.ajax("/comment/" + id, {
-      type: "POST"
+      type: "POST",
+      data: {
+        name: name,
+        text: text
+      }
     }).then(function() {
       console.log("commenting");
       // Reload the page to get the updated list
