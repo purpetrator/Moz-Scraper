@@ -84,7 +84,7 @@ router.get("/scrape", function(req, res) {
 router.get("/articles", function(req, res) {
   // TODO: Finish the route so it grabs all of the articles
   db.Article.find({})
-    .populate("comment")
+    .populate("comments")
     // Specify that we want to populate the retrieved libraries with any associated books
 
     .then(function(dbNote) {
@@ -145,6 +145,13 @@ router.post("/comment/:id", function(req, res) {
     })
     .then(function(dbComment) {
       // If the User was updated successfully, send it back to the client
+      ////////////////////////////////////////////////
+      var hbsObject = {
+        comments: dbComment
+      };
+      res.render("index", hbsObject);
+      //////////////////////////////////////////////
+
       res.json(dbComment);
     })
     .catch(function(err) {

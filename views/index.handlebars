@@ -62,7 +62,10 @@
         </form>
         <hr>
         <h4>All Comments</h4>
-        {{> comments/comments}}
+        {{#each comments}}
+        {{name}}
+        {{text}}
+        {{/each}}
       </div>
     </div>
   </div>
