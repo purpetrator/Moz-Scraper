@@ -32,3 +32,49 @@
   {{/if}}
   {{/each}}
 </ul>
+
+{{!-- This is the COMMENT modal --}}
+<div class="modal" id="comment-modal" tabindex="-1" role="dialog">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">New Comment</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+
+        <div id="form-div" class="mx-auto">
+          <form id="comment-form" class="mx-auto">
+            <div class="form-group">
+              <h5>Name</h5>
+              <input type="email" class="form-control" id="comment-name" aria-describedby="emailHelp"
+                placeholder="Enter Name">
+            </div>
+
+            <div class="form-group">
+              <h5>Comment</h5>
+              <textarea class="form-control" id="comment-text" rows="3" placeholder="Enter Comment"></textarea>
+            </div>
+
+            <button type="button" id="save-comment" class="btn btn-primary m-2">Save</button>
+          </form>
+        </div>
+
+        <br>
+        <div id="all-div" class="mx-auto">
+          <h4>All Comments</h4>
+          {{#each this.comments}}
+          <div class="card bg-light m-2">
+            <div class="card-body">
+              <h5>{{> buttons/deletebtn}} {{name}} </h5>
+              <p>{{text}}</p>
+            </div>
+          </div>
+          {{/each}}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

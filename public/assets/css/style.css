@@ -81,10 +81,8 @@ li {
 }
 
 body {
-  /* background-color: #fdd35b; */
   background-color: #fdd35b;
   background-image: url("https://www.transparenttextures.com/patterns/connected.png");
-  /* This is mostly intended for prototyping; please download the pattern and re-host for production environments. Thank you! */
 }
 
 ul {

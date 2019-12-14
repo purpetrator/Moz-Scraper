@@ -25,14 +25,10 @@ router.get("/", function(req, res) {
 
 // A GET route for scraping Moz and dumping data into DB
 router.get("/scrape", function(req, res) {
-  // First, we grab the body of the html with axios
   axios.get("https://moz.com/blog").then(function(response) {
-    // Load the HTML into cheerio and save it to a variable
-    // '$' becomes a shorthand for cheerio's selector commands, much like jQuery's '$'
     var $ = cheerio.load(response.data);
 
     $("article").each(function(i, element) {
-      // An empty array to save the data that we'll scrape
       var result = {};
 
       result.title = $(this)
@@ -66,7 +62,6 @@ router.get("/scrape", function(req, res) {
       // Create a new Article using the `result` object built from scraping
       db.Article.create(result)
         .then(function(dbArticle) {
-          // View the added result in the console
           console.log(dbArticle);
           console.log(result);
         })
@@ -75,25 +70,19 @@ router.get("/scrape", function(req, res) {
           console.log(err);
         });
     });
-
-    // Send a message to the client
     res.send("Scrape Complete");
   });
 });
 
 // A GET route for getting all articles from db
 router.get("/articles", function(req, res) {
-  // TODO: Finish the route so it grabs all of the articles
   db.Article.find({})
     .populate("comments")
-    // Specify that we want to populate the retrieved libraries with any associated books
 
     .then(function(dbNote) {
-      // If any Libraries are found, send them to the client with any associated Books
       res.json(dbNote);
     })
     .catch(function(err) {
-      // If an error occurs, send it back to the client
       res.json(err);
     });
 });
@@ -102,7 +91,6 @@ router.get("/articles", function(req, res) {
 router.get("/savedarticles", function(req, res) {
   db.Article.find({ saved: true })
     .populate("Comment")
-    // Specify that we want to populate the retrieved libraries with any associated books
 
     .then(function(dbArticle) {
       var hbsObject = {
@@ -110,7 +98,6 @@ router.get("/savedarticles", function(req, res) {
       };
 
       res.render("saved", hbsObject);
-      // res.json(dbArticle);
     })
     .catch(function(err) {
       res.json(err);
@@ -121,11 +108,9 @@ router.get("/savedarticles", function(req, res) {
 router.put("/savedarticles/:id", function(req, res) {
   db.Article.findOneAndUpdate({ _id: req.params.id }, { $set: { saved: true } })
     .then(function(dbArticle) {
-      // If any Libraries are found, send them to the client with any associated Books
       res.json(dbArticle);
     })
     .catch(function(err) {
-      // If an error occurs, send it back to the client
       res.json(err);
     });
 });
@@ -148,7 +133,6 @@ router.post("/comment/:id", function(req, res) {
       res.json(dbComment);
     })
     .catch(function(err) {
-      // If an error occurs, send it back to the client
       res.json(err);
     });
 });

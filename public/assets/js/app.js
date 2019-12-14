@@ -1,6 +1,5 @@
 var activeID = 0;
 
-// Make sure we wait to attach our handlers until the DOM is fully loaded.
 $(function() {
   $("#save-btn").on("click", function(event) {
     event.preventDefault();
@@ -11,7 +10,6 @@ $(function() {
       type: "PUT"
     }).then(function() {
       console.log("saved");
-      // Reload the page to get the updated list
       location.reload();
     });
   });
@@ -21,7 +19,6 @@ $(function() {
       type: "GET"
     }).then(function() {
       console.log("scraping");
-      // Reload the page to get the updated list
       location.reload();
     });
   });
@@ -54,7 +51,6 @@ $(function() {
       }
     }).then(function() {
       console.log("commenting");
-      // Reload the page to get the updated list
       location.reload();
     });
   });
@@ -63,10 +59,7 @@ $(function() {
     event.preventDefault();
     var commentId = $(this).attr("data-id");
     var id = activeID;
-    console.log("comment id");
-    console.log(commentId);
-    console.log("id");
-    console.log(id);
+
     $.ajax({
       url: "/article/" + id + "/comment/" + commentId,
       type: "DELETE"
