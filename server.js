@@ -14,7 +14,7 @@ app.use(express.static("public"));
 // Connect to MongoDB
 var MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/mozscraper";
 
-mongoose.connect(MONGODB_URI, { useNewUrlParser: true });
+mongoose.connect(MONGODB_URI);
 
 // Set Handlebars.
 var exphbs = require("express-handlebars");
