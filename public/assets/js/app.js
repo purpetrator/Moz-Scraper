@@ -55,19 +55,23 @@ $(function() {
     }).then(function() {
       console.log("commenting");
       // Reload the page to get the updated list
-      // location.reload();
+      location.reload();
     });
   });
 
-  // $(".delete-cat").on("click", function(event) {
-  //   event.preventDefault();
-  //   console.log("Delete button was clicked");
-  //   var id = $(this).data("id");
-  //   $.ajax("/api/cats/" + id, {
-  //     type: "DELETE"
-  //   }).then(function() {
-  //     console.log("Deleted cat");
-  //     location.reload();
-  //   });
-  // });
+  $(".delete-comment").on("click", function(event) {
+    event.preventDefault();
+    var commentId = $(this).attr("data-id");
+    var id = activeID;
+    console.log("comment id");
+    console.log(commentId);
+    console.log("id");
+    console.log(id);
+    $.ajax({
+      url: "/article/" + id + "/comment/" + commentId,
+      type: "DELETE"
+    }).then(function() {
+      location.reload();
+    });
+  });
 });

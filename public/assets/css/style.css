@@ -92,6 +92,10 @@ ul {
   padding-left: 0;
 }
 
-#comment-form {
-  width: 500px;
+#form-div {
+  width: 300px;
+}
+
+#all-div {
+  width: 80%;
 }

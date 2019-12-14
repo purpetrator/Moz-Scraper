@@ -153,5 +153,22 @@ router.post("/comment/:id", function(req, res) {
     });
 });
 
+// A DELETE route for deleting comments
+router.delete("/article/:id/comment/:commentId", function(req, res) {
+  db.Comment.deleteOne({ _id: req.params.commentId })
+    .then(function() {
+      return db.Article.update(
+        { _id: req.params.id },
+        { $pull: { comments: req.params.commentId } }
+      );
+    })
+    .then(function(dbArticle) {
+      res.json(dbArticle);
+    })
+    .catch(function(err) {
+      res.json(err);
+    });
+});
+
 // Export routes for server.js to use.
 module.exports = router;

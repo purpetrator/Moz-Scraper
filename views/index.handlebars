@@ -11,7 +11,7 @@
   {{#each articles}}
   {{#unless saved}}
 
-  <div class="card mx-auto m-5" style="width: 600px">
+  <div class="card mx-auto m-5">
     <img src="{{img}}" class="card-img-top" alt="...">
     <div class="card-body">
       <h5 class="card-title"><a href="{{link}}">
@@ -43,32 +43,38 @@
         </div>
         <div class="modal-body">
 
-          <form id="comment-form" class="mx-auto">
-            <div class="form-group">
-              <h5>Name</h5>
-              <input type="email" class="form-control" id="comment-name" aria-describedby="emailHelp"
-                placeholder="Enter Name">
-            </div>
+          <div id="form-div" class="mx-auto">
+            <form id="comment-form" class="mx-auto">
+              <div class="form-group">
+                <h5>Name</h5>
+                <input type="email" class="form-control" id="comment-name" aria-describedby="emailHelp"
+                  placeholder="Enter Name">
+              </div>
 
-            <div class="form-group">
-              <h5>Comment</h5>
-              <textarea class="form-control" id="comment-text" rows="3" placeholder="Enter Comment"></textarea>
-            </div>
 
-            <button type="button" id="save-comment" class="btn btn-primary m-2">Save</button>
-          </form>
-          <br>
-          <hr>
-          <h4>All Comments</h4>
-          {{#each this.comments}}
-          <div class="card">
-            <div class="card-body">
-              <h5>{{name}}</h5>
-              <p>{{text}}</p>
-            </div>
+              <div class="form-group">
+                <h5>Comment</h5>
+                <textarea class="form-control" id="comment-text" rows="3" placeholder="Enter Comment"></textarea>
+              </div>
+
+              <button type="button" id="save-comment" class="btn btn-primary m-2">Save</button>
+            </form>
           </div>
 
-          {{/each}}
+
+          <br>
+          {{!-- <hr> --}}
+          <div id="all-div" class="mx-auto">
+            <h4>All Comments</h4>
+            {{#each this.comments}}
+            <div class="card bg-light m-2">
+              <div class="card-body">
+                <h5>{{> buttons/deletebtn}} {{name}} </h5>
+                <p>{{text}}</p>
+              </div>
+            </div>
+            {{/each}}
+          </div>
         </div>
       </div>
     </div>
