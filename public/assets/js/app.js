@@ -34,19 +34,21 @@ $(function() {
     return activeID;
   });
 
-  $("#save-comment").on("click", function(event) {
-    // event.preventDefault();
+  $(".save-comment").on("click", function(event) {
+    event.preventDefault();
     console.log("this is clicking");
     console.log(activeID);
     var id = activeID;
 
-    var name = $("#comment-name")
+    var name = $("#comment-name-" + id)
       .val()
       .trim();
-    var text = $("#comment-text")
+    var text = $("#comment-text-" + id)
       .val()
       .trim();
 
+    console.log("name: " + name);
+    console.log("text: " + text);
     // Send the PUT request.
     $.ajax("/comment/" + id, {
       type: "POST",
