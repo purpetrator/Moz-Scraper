@@ -14,7 +14,7 @@ Moz Scraper is a web scraper application that crawls and extracts structured dat
 
 Click the "Scrape Articles" button to get started. This will scrape Moz's blog page and return page elements with the most recent blog posts' information.
 
-![](/public/assets/img/rm1.png =600x)
+![](/public/assets/img/rm1.png | width=48)
 
 Each article can be saved. Your saved articles will then appear on the saved page, which can be accessed by clicking the "View Saved" button.
 
