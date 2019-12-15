@@ -18,7 +18,11 @@ Click the "Scrape Articles" button to get started. This will scrape Moz's blog p
 
 Each article can be saved. Your saved articles will then appear on the saved page, which can be accessed by clicking the "View Saved" button.
 
-Users are able to leave and view comments by clicking the "Comments" button. A modal will appear which will show a comment submission form as well as previous comments on each article.
+![](/public/assets/img/rm2.png)
+
+Users are able to leave and view comments by clicking the "Comments" button. A modal will appear which will show a comment submission form as well as previous comments on each article. Comments may be deleted by pressing the "x" button near the user's name.
+
+![](/public/assets/img/rm3.png)
 
 ## Technologies Used
 
