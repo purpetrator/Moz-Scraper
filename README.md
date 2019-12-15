@@ -14,15 +14,15 @@ Moz Scraper is a web scraper application that crawls and extracts structured dat
 
 Click the "Scrape Articles" button to get started. This will scrape Moz's blog page and return page elements with the most recent blog posts' information.
 
-![](/public/assets/img/rm1.png)
+![](/public/assets/img/rm1.png =600x)
 
 Each article can be saved. Your saved articles will then appear on the saved page, which can be accessed by clicking the "View Saved" button.
 
-![](/public/assets/img/rm2.png)
+![](/public/assets/img/rm2.png =400x)
 
 Users are able to leave and view comments by clicking the "Comments" button. A modal will appear which will show a comment submission form as well as previous comments on each article. Comments may be deleted by pressing the "x" button near the user's name.
 
-![](/public/assets/img/rm3.png)
+![](/public/assets/img/rm3.png =400x)
 
 ## Technologies Used
 
