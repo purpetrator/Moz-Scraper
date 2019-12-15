@@ -24,9 +24,13 @@ $(function() {
   });
 
   $(document).on("click", ".comment-btn", function(event) {
+    // In your ."add-comment" on-click, grab the data-id of that add-comment button, and use Bootstrap to show the modal with the ID of "modal-idgoeshere"
     console.log("this is clicking");
     console.log($(this).attr("data-id"));
     activeID = $(this).attr("data-id");
+
+    $("#modal-" + activeID).modal("show");
+
     return activeID;
   });
 

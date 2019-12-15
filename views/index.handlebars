@@ -30,7 +30,7 @@
   {{/unless}}
 
   {{!-- This is the COMMENT modal --}}
-  <div class="modal" id="comment-modal" tabindex="-1" role="dialog">
+  <div class="modal comment-modal" id="modal-{{_id}}" tabindex="-1" role="dialog">
     <div class="modal-dialog modal-lg" role="document">
       <div class="modal-content">
         <div class="modal-header">
@@ -54,21 +54,21 @@
                 <textarea class="form-control" id="comment-text" rows="3" placeholder="Enter Comment"></textarea>
               </div>
 
-              <button type="button" id="save-comment" class="btn btn-primary m-2">Save</button>
+              <button type="button" id="save-comment" class="btn btn-primary m-2" data-id="{{_id}}">Save</button>
             </form>
           </div>
 
           <br>
-          <div id="all-div" class="mx-auto">
+          <div id=" all-div" class="mx-auto">
             <h4>All Comments</h4>
-            {{#each this.comments}}
+            {{#comments}}
             <div class="card bg-light m-2">
               <div class="card-body">
                 <h5>{{> buttons/deletebtn}} {{name}} </h5>
                 <p>{{text}}</p>
               </div>
             </div>
-            {{/each}}
+            {{/comments}}
           </div>
         </div>
       </div>
