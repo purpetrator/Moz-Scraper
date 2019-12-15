@@ -35,7 +35,8 @@ $(function() {
   });
 
   $("#save-comment").on("click", function(event) {
-    event.preventDefault();
+    // event.preventDefault();
+    console.log("this is clicking");
     console.log(activeID);
     var id = activeID;
 
