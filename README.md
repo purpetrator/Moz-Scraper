@@ -4,7 +4,7 @@
 
 Moz Scraper is a web scraper application that crawls and extracts structured data from Moz's blog page. Moz is scraped with Cheerio and Axios, and the data is stored in MongoDB with Mongoose.
 
-> Deployed Link: [See Here](https://doc-portal.herokuapp.com/)
+> Deployed Link: [See Here](https://pure-crag-01626.herokuapp.com/)
 
 > Repository: [See Here](https://github.com/purpetrator/Project2)
 
